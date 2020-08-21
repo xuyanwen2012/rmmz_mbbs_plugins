@@ -5,27 +5,32 @@ import pkg from './package.json';
 // TODO: import the plugin
 
 function myPlugin(options = {}) {
-  console.log('-----------------------------------------------------------');
-  console.log(options);
-  console.log('-----------------------------------------------------------');
-
   return {
     name: 'my-plugin',
+
+    renderChunk(code) {
+      // showed read from a description file
+      let help_msg = 'This plugin can be used for \'Mount & Blade\' style battle log or simply for quick debugging display.'
+
+      help_msg = help_msg
+        .match(new RegExp('.{1,77}', 'g'))
+        .map((line) => ' * ' + line)
+        .join('\n');
+
+      return banner_head + help_msg + banner_foot + code;
+    }
   }
 }
 
-const banner = [
-  `/*:`,
-  ` * @target MZ`,
-  ` * @plugindesc ${pkg.description}`,
-  ` * @author ${pkg.author}`,
-  ` *`,
-  ` * @help ${pkg.name}.js - v${pkg.version}`,
-  ` *`,
-  ` * ${pkg.name} is licensed under the MIT License.`,
-  ` * http://www.opensource.org/licenses/mit-license`,
-  ` */`,
-].join('\n');
+const banner_head = `/*:
+ * @target MZ
+ * @plugindesc ${pkg.description}
+ * @author ${pkg.author}
+ *
+ * @help ${pkg.main.substring('dist/'.length)} - v${pkg.version}
+`;
+
+const banner_foot = '\n */\n';
 
 export default {
   input: 'src/index.ts',
@@ -36,7 +41,6 @@ export default {
   output: {
     file: pkg.main,
     format: 'iife',
-    banner,
-    sourcemap: true,
+    sourcemap: false,
   },
 }

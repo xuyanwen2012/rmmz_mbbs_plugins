@@ -1,11 +1,10 @@
 {
   "name": "@rmmz/plugins",
   "version": "1.0.0",
-  "description": "A test plugin",
+  "description": "A plugin development workspace for RPG Maker MZ(RMMZ) that utilize TypeScript and Rollup.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "RaiderSoap",
   "license": "MIT",

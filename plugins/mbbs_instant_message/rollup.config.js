@@ -28,6 +28,7 @@ const banner_head = `/*:
  * @author ${pkg.author}
  *
  * @help ${pkg.main.substring('dist/'.length)} - v${pkg.version}
+ *
 `;
 
 const banner_foot = '\n */\n';

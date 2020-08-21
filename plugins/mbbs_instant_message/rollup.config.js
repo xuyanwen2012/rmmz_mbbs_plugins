@@ -1,4 +1,4 @@
-import typescript from 'rollup-plugin-typescript';
+import typescript from '@rollup/plugin-typescript';
 
 import pkg from './package.json';
 
@@ -14,7 +14,6 @@ function myPlugin(options = {}) {
   }
 }
 
-
 const banner = [
   `/*:`,
   ` * @target MZ`,
@@ -29,7 +28,7 @@ const banner = [
 ].join('\n');
 
 export default {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   plugins: [
     typescript(),
     myPlugin(),

@@ -1,0 +1,16 @@
+{
+  "name": "mbbs_instant_message",
+  "version": "1.0.0",
+  "description": "A standalone onscreen message logging system.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ivan Xu (RaiderSoap)",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^5.0.2",
+    "rollup": "^2.26.4"
+  }
+}

@@ -7,17 +7,17 @@ export default class Notification {
     this.showing_ = true;
   }
 
-  update() {
+  update(): void {
     if (this.showing_) {
-
+      this.showing_ = false;
     }
   }
 
-  show() {
+  show(): void {
     this.showing_ = true;
   }
 
-  hide() {
+  hide(): void {
     this.showing_ = false;
   }
 }

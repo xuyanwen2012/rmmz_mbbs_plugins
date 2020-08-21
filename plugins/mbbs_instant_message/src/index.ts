@@ -1,8 +1,10 @@
-import Notification from "./notification";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Notification from './notification';
 
-let instance = new Notification();
+const instance = new Notification();
 
-declare var Scene_Map: any;
+// eslint-disable-next-line prefer-const
+declare let Scene_Map: any;
 
 const _SceneMap = Scene_Map.prototype;
 Scene_Map = class extends Scene_Map {

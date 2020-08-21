@@ -1,15 +1,18 @@
 {
   "name": "rollup-plugin-rmmz",
   "version": "1.0.0",
-  "description": "",
+  "description": "A test plugin",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"
   },
-  "author": "",
+  "author": "RaiderSoap",
   "license": "MIT",
   "devDependencies": {
-    "rollup": "^2.26.4"
+    "rollup": "^2.26.4",
+    "rollup-plugin-typescript": "^1.0.1",
+    "tslib": "^2.0.1",
+    "typescript": "^4.0.2"
   }
 }

@@ -1,3 +1,6 @@
 import testA from './testA';
+// import {getArrayLength} from '../types/example';
 
-console.log(testA('roar'));
+// getArrayLength([1, 2, 3]);
+
+console.log(+testA('roar'));

@@ -1,6 +1,24 @@
 import testA from './testA';
-// import {getArrayLength} from '../types/example';
+import Notification from './test_lib';
 
-// getArrayLength([1, 2, 3]);
+let instance = new Notification();
 
-console.log(+testA('roar'));
+const _SceneMap = Scene_Map.prototype;
+Scene_Map = class extends Scene_Map {
+  start(...args) {
+    _SceneMap.start.apply(this, args);
+    instance.show();
+  }
+
+  update(...args) {
+    _SceneMap.update.apply(this, args);
+    instance.update();
+  }
+
+  stop(...args) {
+    _SceneMap.stop.apply(this, args);
+    instance.show();
+  }
+};
+
+console.log(testA('roar'));

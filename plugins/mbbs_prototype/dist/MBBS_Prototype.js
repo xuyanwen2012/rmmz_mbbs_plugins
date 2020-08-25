@@ -70,25 +70,15 @@
     console.log(`${pluginParam.numTick}!`);
   });
 
-  Scene_Map = class extends Scene_Map {
-    start(...args) {
-      super.start(args);
-    }
-
-    update(...args) {
-      super.update(args);
-    }
-
-    stop(...args) {
-      super.stop(args);
-    }
-  };
-
   // ==========================================================================
   // Aliasing
   // ==========================================================================
 
   Spriteset_Map = class extends Spriteset_Map {
+    /**
+     * @override
+     * @param {any} args
+     */
     initialize(...args) {
       super.initialize(args);
 
@@ -98,11 +88,15 @@
       this._debugSprites = [];
     }
 
+    /**
+     * @override
+     * @param {any} args
+     */
     createCharacters(...args) {
       super.createCharacters(args);
 
       this._debugSprites = [[1, 2], [4, 4], [6, 2]]
-        .map(([x, y]) => new SpriteDebugUnit({x, y}));
+          .map(([x, y]) => new SpriteDebugUnit({x, y}));
 
       this._characterSprites.push(...this._debugSprites);
       this._debugSprites.forEach((sprite) => this._tilemap.addChild(sprite));

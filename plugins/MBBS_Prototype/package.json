@@ -1,10 +1,10 @@
 {
-  "name": "plugin2",
+  "name": "mbb",
   "version": "1.0.0",
   "description": "A plugin description",
   "license": "MIT",
   "author": "Ivan Xu",
-  "main": "dist/Plugin2.js",
+  "main": "dist/MBBS_Prototype.js",
   "scripts": {
     "build": "rollup -c",
     "lint": "pnpm run lint:package && pnpm run lint:js",

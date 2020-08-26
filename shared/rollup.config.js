@@ -7,7 +7,7 @@ import fs from 'fs';
  */
 export function createConfig(pkg) {
   return {
-    input: 'src/index.ts',
+    input: 'src/index.js',
     external: Object.keys(pkg.dependencies || {}),
     output: [
       {

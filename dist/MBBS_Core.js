@@ -58,57 +58,65 @@
         }
     }
 
-    console.log(SpriteDebugUnit);
+    const pluginName = 'MBBS_Prototype';
+    const pluginParam = {numTick: 1};
+
+    PluginManager.registerCommand(pluginName, 'tick', args => {
+      pluginParam.numTick = Number(args.numTick);
+      console.log(`${pluginParam.numTick}!`);
+    });
+
+    // ==========================================================================
+    // Aliasing
+    // ==========================================================================
+
+    const _Spriteset_Map_initialize = Spriteset_Map.prototype.initialize;
+    Spriteset_Map.prototype.initialize = function () {
+      _Spriteset_Map_initialize.apply(this);
+      /**
+       * @type {SpriteDebugUnit[]}
+       */
+      this._debugSprites = [];
+    };
+
+    const _Spriteset_Map_createCharacters =
+      Spriteset_Map.prototype.createCharacters;
+    Spriteset_Map.prototype.createCharacters = function () {
+      _Spriteset_Map_createCharacters.apply(this);
+
+      this._debugSprites = [
+        [1, 2],
+        [4, 4],
+        [6, 2],
+      ].map(([x, y]) => new SpriteDebugUnit({x, y}));
+
+      this._characterSprites.push(...this._debugSprites);
+      this._debugSprites.forEach(sprite => this._tilemap.addChild(sprite));
+    };
+
     //
-    // const pluginName = 'MBBS_Prototype';
-    // const pluginParam = {numTick: 1};
+    // Spriteset_Map = class extends Spriteset_Map {
+    //   initialize(...args) {
+    //     super.initialize(args);
     //
-    // PluginManager.registerCommand(pluginName, 'tick', args => {
-    //   pluginParam.numTick = Number(args.numTick);
-    //   console.log(`${pluginParam.numTick}!`);
-    // });
+    //     /**
+    //      * @type {SpriteDebugUnit[]}
+    //      */
+    //     this._debugSprites = [];
+    //   }
     //
-    // // ==========================================================================
-    // // Aliasing
-    // // ==========================================================================
+    //   createCharacters(...args) {
+    //     super.createCharacters(args);
     //
-    // const _Spriteset_Map = Spriteset_Map.prototype;
+    //     this._debugSprites = [
+    //       [1, 2],
+    //       [4, 4],
+    //       [6, 2],
+    //     ].map(([x, y]) => new SpriteDebugUnit({x, y}));
     //
-    // Spriteset_Map.prototype._debugSprites
-    //
-    // Spriteset_Map.prototype.initialize = function () {
-    //   _Spriteset_Map.initialize.apply(this);
-    //   /**
-    //    * @type {SpriteDebugUnit[]}
-    //    */
-    //   this._debugSprites = [];
+    //     this._characterSprites.push(...this._debugSprites);
+    //     this._debugSprites.forEach(sprite => this._tilemap.addChild(sprite));
+    //   }
     // };
-    //
-    // Spriteset_Map.prototype.createCharacters = function () {};
-    //
-    // //
-    // // Spriteset_Map = class extends Spriteset_Map {
-    // //   initialize(...args) {
-    // //     super.initialize(args);
-    // //
-    // //     /**
-    // //      * @type {SpriteDebugUnit[]}
-    // //      */
-    // //     this._debugSprites = [];
-    // //   }
-    // //
-    // //   createCharacters(...args) {
-    // //     super.createCharacters(args);
-    // //
-    // //     this._debugSprites = [
-    // //       [1, 2],
-    // //       [4, 4],
-    // //       [6, 2],
-    // //     ].map(([x, y]) => new SpriteDebugUnit({x, y}));
-    // //
-    // //     this._characterSprites.push(...this._debugSprites);
-    // //     this._debugSprites.forEach(sprite => this._tilemap.addChild(sprite));
-    // //   }
-    // // };
 
 }());

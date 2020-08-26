@@ -2,9 +2,8 @@ import path from 'path';
 import fs from 'fs';
 
 /**
- * @param {object} pkg
- * @param {string} banner
- * @return {object}
+ * @param {any} pkg
+ * @return {any}
  */
 export function createConfig(pkg) {
   return {
@@ -20,6 +19,11 @@ export function createConfig(pkg) {
   };
 }
 
+/**
+ * @param {any} pkg
+ * @param {string} headerFile
+ * @returns {string}
+ */
 function prependHeader(pkg, headerFile = '_header.txt') {
   const header = `//=============================================================================
 // RPG Maker MZ - ${pkg.main.substring(pkg.main.lastIndexOf('/') + 1)}

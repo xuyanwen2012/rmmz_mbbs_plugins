@@ -1,10 +1,10 @@
 {
-  "name": "plugin1",
+  "name": "mbbs_core",
   "version": "1.0.0",
   "author": "Ivan Xu",
   "license": "MIT",
-  "description": "This is the description of the plugin",
-  "main": "../../dist/Plugin1.js",
+  "description": "The core plugin of M&B Battle System.",
+  "main": "../../dist/MBBS_Core.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"

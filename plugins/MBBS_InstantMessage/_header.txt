@@ -1,0 +1,10 @@
+/*:
+ * @target MZ
+ * @plugindesc A standalone onscreen message logging system.
+ * @author Ivan Xu
+ *
+ * @help MBBS_InstantMessage.js - v1.0.0
+ *
+ * This plugin can be used for 'Mount & Blade' style battle log or simply for
+ * quick debugging display.
+ */

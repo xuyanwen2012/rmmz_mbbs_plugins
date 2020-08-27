@@ -11,4 +11,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
+  rules: {
+    'node/no-unsupported-features/es-syntax': 0
+  }
 };

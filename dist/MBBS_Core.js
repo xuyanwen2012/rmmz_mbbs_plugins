@@ -58,65 +58,27 @@
         }
     }
 
-    const pluginName = 'MBBS_Prototype';
-    const pluginParam = {numTick: 1};
-
-    PluginManager.registerCommand(pluginName, 'tick', args => {
-      pluginParam.numTick = Number(args.numTick);
-      console.log(`${pluginParam.numTick}!`);
-    });
-
-    // ==========================================================================
-    // Aliasing
-    // ==========================================================================
-
-    const _Spriteset_Map_initialize = Spriteset_Map.prototype.initialize;
-    Spriteset_Map.prototype.initialize = function () {
-      _Spriteset_Map_initialize.apply(this);
-      /**
-       * @type {SpriteDebugUnit[]}
-       */
-      this._debugSprites = [];
-    };
+    // import {debugSprites} from './index';
 
     const _Spriteset_Map_createCharacters =
       Spriteset_Map.prototype.createCharacters;
     Spriteset_Map.prototype.createCharacters = function () {
       _Spriteset_Map_createCharacters.apply(this);
 
-      this._debugSprites = [
+      this._characterSprites.push(...debugSprites);
+      debugSprites.forEach(sprite => this._tilemap.addChild(sprite));
+    };
+
+    const pluginName = 'MBBS_Prototype';
+    const pluginParam = { numTick: 1 };
+    PluginManager.registerCommand(pluginName, 'tick', args => {
+        pluginParam.numTick = args.numTick;
+        console.log(`${pluginParam.numTick}!`);
+    });
+    const debugSprites$1 = [
         [1, 2],
         [4, 4],
         [6, 2],
-      ].map(([x, y]) => new SpriteDebugUnit({x, y}));
-
-      this._characterSprites.push(...this._debugSprites);
-      this._debugSprites.forEach(sprite => this._tilemap.addChild(sprite));
-    };
-
-    //
-    // Spriteset_Map = class extends Spriteset_Map {
-    //   initialize(...args) {
-    //     super.initialize(args);
-    //
-    //     /**
-    //      * @type {SpriteDebugUnit[]}
-    //      */
-    //     this._debugSprites = [];
-    //   }
-    //
-    //   createCharacters(...args) {
-    //     super.createCharacters(args);
-    //
-    //     this._debugSprites = [
-    //       [1, 2],
-    //       [4, 4],
-    //       [6, 2],
-    //     ].map(([x, y]) => new SpriteDebugUnit({x, y}));
-    //
-    //     this._characterSprites.push(...this._debugSprites);
-    //     this._debugSprites.forEach(sprite => this._tilemap.addChild(sprite));
-    //   }
-    // };
+    ].map(([x, y]) => new SpriteDebugUnit({ x, y }));
 
 }());

@@ -8,9 +8,6 @@ export default class SpriteDebugUnit extends Sprite {
     this._state = {x, y};
   }
 
-  /**
-   * TODO: [.d.ts] did not define 'initialize'
-   */
   initialize() {
     const size = 48;
     const bitmap = new Bitmap(size, size);

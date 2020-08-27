@@ -1,5 +1,5 @@
 import {SpriteDebugUnit} from './sprites';
-import './aliases';
+import * as aliases from 'aliases';
 
 const pluginName = 'MBBS_Prototype';
 const pluginParam = {numTick: 1};
@@ -14,3 +14,7 @@ const debugSprites: Array<SpriteDebugUnit> = [
   [4, 4],
   [6, 2],
 ].map(([x, y]) => new SpriteDebugUnit({x, y}));
+
+console.log(debugSprites);
+
+aliases.setupAliases(debugSprites);

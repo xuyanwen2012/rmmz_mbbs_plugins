@@ -12,5 +12,8 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^5.0.2",
     "rollup": "^2.26.5"
+  },
+  "dependencies": {
+    "pixi.js": "^5.3.3"
   }
 }

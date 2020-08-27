@@ -26,7 +26,7 @@
  * @desc An argument description.
  */
 
-(function () {
+(function (pixi_js, aliases) {
     'use strict';
 
     class SpriteDebugUnit extends Sprite {
@@ -58,27 +58,18 @@
         }
     }
 
-    // import {debugSprites} from './index';
-
-    const _Spriteset_Map_createCharacters =
-      Spriteset_Map.prototype.createCharacters;
-    Spriteset_Map.prototype.createCharacters = function () {
-      _Spriteset_Map_createCharacters.apply(this);
-
-      this._characterSprites.push(...debugSprites);
-      debugSprites.forEach(sprite => this._tilemap.addChild(sprite));
-    };
-
     const pluginName = 'MBBS_Prototype';
     const pluginParam = { numTick: 1 };
     PluginManager.registerCommand(pluginName, 'tick', args => {
         pluginParam.numTick = args.numTick;
         console.log(`${pluginParam.numTick}!`);
     });
-    const debugSprites$1 = [
+    const debugSprites = [
         [1, 2],
         [4, 4],
         [6, 2],
     ].map(([x, y]) => new SpriteDebugUnit({ x, y }));
+    console.log(debugSprites);
+    aliases.setupAliases(debugSprites);
 
-}());
+}(null, aliases));

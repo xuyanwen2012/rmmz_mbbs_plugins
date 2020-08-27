@@ -3,13 +3,11 @@ importers:
     dependencies:
       pixi.js: 5.3.3
     devDependencies:
-      '@types/node': 14.6.0
       gts: 2.0.2_typescript@4.0.2
       pnpm: 5.5.3
       tslib: 2.0.1
       typescript: 4.0.2
     specifiers:
-      '@types/node': ^14.6.0
       gts: ^2.0.2
       pixi.js: ^5.3.3
       pnpm: ^5.5.3
@@ -381,10 +379,6 @@ packages:
     dev: true
     resolution:
       integrity: sha1-aaI6OtKcrwCX8G7aWbNh7i8GOfY=
-  /@types/node/14.6.0:
-    dev: true
-    resolution:
-      integrity: sha512-mikldZQitV94akrc4sCcSjtJfsTKt4p+e/s0AGscVA6XArQ9kFclP+ZiYUMnq987rc6QlYxXv/EivqlfSLxpKA==
   /@types/normalize-package-data/2.4.0:
     dev: true
     resolution:

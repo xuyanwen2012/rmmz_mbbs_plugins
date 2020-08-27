@@ -1,4 +1,4 @@
-import {SpriteDebugUnit} from './sprites';
+import {SpriteDebugUnit} from './sprites/index.ts';
 
 const pluginName = 'MBBS_Prototype';
 const pluginParam = {numTick: 1};

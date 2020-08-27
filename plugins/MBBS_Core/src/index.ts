@@ -1,5 +1,4 @@
 import {SpriteDebugUnit} from './sprites';
-import * as aliases from 'aliases';
 
 const pluginName = 'MBBS_Prototype';
 const pluginParam = {numTick: 1};
@@ -9,12 +8,29 @@ PluginManager.registerCommand(pluginName, 'tick', args => {
   console.log(`${pluginParam.numTick}!`);
 });
 
-const debugSprites: Array<SpriteDebugUnit> = [
-  [1, 2],
-  [4, 4],
-  [6, 2],
-].map(([x, y]) => new SpriteDebugUnit({x, y}));
+// @ts-ignore
+Spriteset_Map = class extends Spriteset_Map {
+  initialize(bitmap?: Bitmap) {
+    super.initialize(bitmap);
 
-console.log(debugSprites);
+    // @ts-ignore
+    this._debugSprites = [];
+  }
 
-aliases.setupAliases(debugSprites);
+  createCharacters() {
+    super.createCharacters();
+
+    // @ts-ignore
+    this._debugSprites = [
+      [1, 2],
+      [4, 4],
+      [6, 2],
+    ].map(([x, y]) => new SpriteDebugUnit({x, y}));
+
+    // @ts-ignore
+    this._characterSprites.push(...this._debugSprites);
+
+    // @ts-ignore
+    this._debugSprites.forEach(sprite => this._tilemap.addChild(sprite));
+  }
+};

@@ -26,7 +26,7 @@
  * @desc An argument description.
  */
 
-(function (pixi_js, aliases) {
+(function () {
     'use strict';
 
     class SpriteDebugUnit extends Sprite {
@@ -64,12 +64,26 @@
         pluginParam.numTick = args.numTick;
         console.log(`${pluginParam.numTick}!`);
     });
-    const debugSprites = [
-        [1, 2],
-        [4, 4],
-        [6, 2],
-    ].map(([x, y]) => new SpriteDebugUnit({ x, y }));
-    console.log(debugSprites);
-    aliases.setupAliases(debugSprites);
+    // @ts-ignore
+    Spriteset_Map = class extends Spriteset_Map {
+        initialize(bitmap) {
+            super.initialize(bitmap);
+            // @ts-ignore
+            this._debugSprites = [];
+        }
+        createCharacters() {
+            super.createCharacters();
+            // @ts-ignore
+            this._debugSprites = [
+                [1, 2],
+                [4, 4],
+                [6, 2],
+            ].map(([x, y]) => new SpriteDebugUnit({ x, y }));
+            // @ts-ignore
+            this._characterSprites.push(...this._debugSprites);
+            // @ts-ignore
+            this._debugSprites.forEach(sprite => this._tilemap.addChild(sprite));
+        }
+    };
 
-}(null, aliases));
+}());

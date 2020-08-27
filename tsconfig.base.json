@@ -1,0 +1,12 @@
+{
+  "extends": "./node_modules/gts/tsconfig-google.json",
+  "compilerOptions": {
+    "lib": [
+      "DOM",
+      "ES6",
+      "ES5"
+    ],
+    "skipLibCheck": true,
+    "declaration": false
+  }
+}

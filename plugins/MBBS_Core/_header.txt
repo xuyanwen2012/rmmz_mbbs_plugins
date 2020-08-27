@@ -1,0 +1,23 @@
+/*:
+ * @target MZ
+ * @plugindesc The core plugin of M&B Battle System.
+ * @author Ivan Xu
+ *
+ * @help MBBS_Core.js - v1.0.0
+ *
+ * This plugin enables the 'Mount & Blade' Battle System, providing fundamental
+ * code and necessary plugin parameters and commands. Adding other MBBS plugins
+ * can greatly enhance the gameplay.
+ *
+ * @command aCommand
+ * @text A command
+ * @desc A command description.
+ *
+ * @arg anArg
+ * @type number
+ * @min 1
+ * @max 60
+ * @default 1
+ * @text An argument
+ * @desc An argument description.
+ */

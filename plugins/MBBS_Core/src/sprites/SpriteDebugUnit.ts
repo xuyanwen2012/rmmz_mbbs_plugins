@@ -1,22 +1,15 @@
-/**
- * @extends {Sprite}
- */
-export default class SpriteDebugUnit extends Sprite {
-  /**
-   * @param {{x: number, y: number}} state
-   */
-  constructor(state = {x: 0, y: 0}) {
-    super();
+import 'pixi.js';
 
-    /**
-     * @type {{x: number, y: number}}
-     * @private
-     */
-    this._state = state;
+export default class SpriteDebugUnit extends Sprite {
+  private _state: {x: number; y: number};
+
+  constructor({x, y}: {x: number; y: number}) {
+    super();
+    this._state = {x, y};
   }
 
   /**
-   * @override
+   * TODO: [.d.ts] did not define 'initialize'
    */
   initialize() {
     const size = 48;
@@ -31,9 +24,6 @@ export default class SpriteDebugUnit extends Sprite {
     this.anchor.y = 1;
   }
 
-  /**
-   * @override
-   */
   update() {
     super.update();
 
@@ -43,6 +33,6 @@ export default class SpriteDebugUnit extends Sprite {
     const x = this._state.x;
     const y = this._state.y;
     this.x = ($gameMap.adjustX(x) + 0.5) * tileWidth;
-    this.y = ($gameMap.adjustY(y)) * tileHeight;
+    this.y = $gameMap.adjustY(y) * tileHeight;
   }
 }

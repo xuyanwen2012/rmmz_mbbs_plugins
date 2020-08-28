@@ -1,33 +1,32 @@
-// const pluginParam = {numTick: 1};
 import WindowNotification from './WindowNotification';
+
+// const pluginParam = {numTick: 1};
+
+let notificationWindow: WindowNotification;
 
 // @ts-ignore
 Scene_Map = class extends Scene_Map {
   createWindowLayer() {
     super.createWindowLayer();
 
-    // @ts-ignore
-    this._notificationWindow = new WindowNotification();
+    const displayRect = new Rectangle(0, 0, 256, Graphics.boxHeight);
 
-    // @ts-ignore
-    this.addWindow(this._notificationWindow);
+    notificationWindow = new WindowNotification(displayRect);
+    SceneManager._scene.addChild(notificationWindow);
   }
 
   start() {
     super.start();
-    // @ts-ignore
-    this._notificationWindow.show();
+    notificationWindow.show();
   }
 
   update() {
     super.update();
-    // @ts-ignore
-    this._notificationWindow.update();
+    notificationWindow.update();
   }
 
   stop() {
     super.stop();
-    // @ts-ignore
-    this._notificationWindow.hide();
+    notificationWindow.hide();
   }
 };

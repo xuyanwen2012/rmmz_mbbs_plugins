@@ -8109,6 +8109,11 @@ declare class Game_System {
    * @memberof Game_System
    */
   saveWalkingBgm2(): void;
+
+  mainFontFace(): string;
+  numberFontFace(): string;
+  mainFontSize(): number;
+  windowPadding(): number;
 }
 
 /**
@@ -19311,11 +19316,8 @@ declare class Window_Base {
 
   /**
    * Creates an instance of Window_Base.
-   * @param {number} x
-   * @param {number} y
-   * @param {number} width
-   * @param {number} height
    * @memberof Window_Base
+   * @param rect
    */
   constructor(rect: Rectangle);
 

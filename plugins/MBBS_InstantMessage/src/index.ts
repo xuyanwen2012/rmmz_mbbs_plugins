@@ -11,7 +11,8 @@ interface CommandPostParams {
   textColor: string;
 }
 
-// const notifications = new Notifications();
+const displayRect = new Rectangle(0, 64, 808 / 2, 616 - 64);
+const $gameNotifications = new Notifications(displayRect);
 
 PluginManager.registerCommand(pluginName, 'post', (args: CommandPostParams) => {
   const color = ColorManager.normalColor();
@@ -19,27 +20,17 @@ PluginManager.registerCommand(pluginName, 'post', (args: CommandPostParams) => {
   const font = $gameSystem.mainFontFace();
   const text = args.text;
 
-  // @ts-ignore
-  SceneManager._scene.notifications.post({color, size, font, text});
+  $gameNotifications.post({color, size, font, text});
   // @ts-ignore
   SceneManager._scene.notificationWindow.open();
 });
 
 // @ts-ignore
 Scene_Map = class extends Scene_Map {
-  notifications: Notifications | undefined;
   notificationWindow: WindowNotification | undefined;
 
   createAllWindows() {
-    const displayRect = new Rectangle(
-      0,
-      64,
-      Graphics.boxWidth / 2,
-      Graphics.boxHeight
-    );
-
-    this.notifications = new Notifications(displayRect);
-    this.notificationWindow = new WindowNotification(this.notifications);
+    this.notificationWindow = new WindowNotification($gameNotifications);
 
     this.addWindow(this.notificationWindow);
     super.createAllWindows();

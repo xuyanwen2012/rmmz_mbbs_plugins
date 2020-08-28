@@ -1,8 +1,19 @@
 import WindowNotification from './WindowNotification';
 
+const pluginName = 'MBBS_InstantMessage';
 // const pluginParam = {numTick: 1};
 
+interface PluginParams {
+  text: string;
+  fontSize: number;
+  textColor: string;
+}
+
 let notificationWindow: WindowNotification;
+
+PluginManager.registerCommand(pluginName, 'post', (args: PluginParams) => {
+  notificationWindow.open();
+});
 
 // @ts-ignore
 Scene_Map = class extends Scene_Map {
@@ -10,7 +21,7 @@ Scene_Map = class extends Scene_Map {
     const rect = new Rectangle(
       0,
       64,
-      Graphics.boxWidth / 3,
+      Graphics.boxWidth / 2,
       Graphics.boxHeight
     );
     notificationWindow = new WindowNotification(rect);
@@ -20,7 +31,7 @@ Scene_Map = class extends Scene_Map {
 
   start() {
     super.start();
-    notificationWindow.open();
+    notificationWindow.show();
   }
 
   update() {

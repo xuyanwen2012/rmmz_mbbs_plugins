@@ -7,4 +7,25 @@
  *
  * This plugin can be used for 'Mount & Blade' style battle log or simply for
  * quick debugging display.
+ *
+ * @command post
+ * @text Post
+ * @desc Post a message to the screen.
+ *
+ * @arg text
+ * @type string
+ * @text Text
+ * @desc The text to print.
+ *
+ * @arg fontSize
+ * @type number
+ * @default 26
+ * @text Font size
+ * @desc The size of the font.
+ *
+ * @arg textColor
+ * @type string
+ * @default #000000
+ * @text Text
+ * @desc The color of the text;
  */

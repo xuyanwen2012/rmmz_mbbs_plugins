@@ -11,6 +11,32 @@
  *
  * This plugin can be used for 'Mount & Blade' style battle log or simply for
  * quick debugging display.
+ *
+ * @command post
+ * @text Post
+ * @desc Post a message to the screen.
+ *
+ * @arg text
+ * @type string
+ * @text Text
+ * @desc The text to print.
+ *
+ * @arg fontSize
+ * @type string
+ * @default 26
+ * @text Font size
+ * @desc The size of the font.
+ *
+ * @arg fontFace
+ * @type string
+ * @text Font Face
+ * @desc The face name of the font.
+ *
+ * @arg textColor
+ * @type string
+ * @default #000000
+ * @text Text
+ * @desc The color of the text;
  */
 
 (function () {
@@ -62,19 +88,22 @@
         }
     }
 
-    // const pluginParam = {numTick: 1};
+    const pluginName = 'MBBS_InstantMessage';
     let notificationWindow;
+    PluginManager.registerCommand(pluginName, 'post', (args) => {
+        notificationWindow.open();
+    });
     // @ts-ignore
     Scene_Map = class extends Scene_Map {
         createAllWindows() {
-            const rect = new Rectangle(0, 64, Graphics.boxWidth / 3, Graphics.boxHeight);
+            const rect = new Rectangle(0, 64, Graphics.boxWidth / 2, Graphics.boxHeight);
             notificationWindow = new WindowNotification(rect);
             this.addWindow(notificationWindow);
             super.createAllWindows();
         }
         start() {
             super.start();
-            notificationWindow.open();
+            notificationWindow.show();
         }
         update() {
             super.update();

@@ -19317,7 +19317,7 @@ declare class Window_Base {
    * @param {number} height
    * @memberof Window_Base
    */
-  constructor(x: number, y: number, width: number, height: number);
+  constructor(rect: Rectangle);
 
   /**
    * Returns the standard line height of the current window;

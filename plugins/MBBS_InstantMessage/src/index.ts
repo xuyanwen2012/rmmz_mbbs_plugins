@@ -1,36 +1,33 @@
-import {SpriteDebugUnit} from './sprites';
-
-const pluginName = 'MBBS_Prototype';
-const pluginParam = {numTick: 1};
-
-PluginManager.registerCommand(pluginName, 'tick', args => {
-  pluginParam.numTick = args.numTick as number;
-  console.log(`${pluginParam.numTick}!`);
-});
+// const pluginParam = {numTick: 1};
+import WindowNotification from './WindowNotification';
 
 // @ts-ignore
-Spriteset_Map = class extends Spriteset_Map {
-  initialize(bitmap?: Bitmap) {
-    super.initialize(bitmap);
+Scene_Map = class extends Scene_Map {
+  createWindowLayer() {
+    super.createWindowLayer();
 
     // @ts-ignore
-    this._debugSprites = [];
+    this._notificationWindow = new WindowNotification();
+
+    // @ts-ignore
+    this.addWindow(this._notificationWindow);
   }
 
-  createCharacters() {
-    super.createCharacters();
-
+  start() {
+    super.start();
     // @ts-ignore
-    this._debugSprites = [
-      [1, 2],
-      [4, 4],
-      [6, 2],
-    ].map(([x, y]) => new SpriteDebugUnit({x, y}));
+    this._notificationWindow.show();
+  }
 
+  update() {
+    super.update();
     // @ts-ignore
-    this._characterSprites.push(...this._debugSprites);
+    this._notificationWindow.update();
+  }
 
+  stop() {
+    super.stop();
     // @ts-ignore
-    this._debugSprites.forEach(sprite => this._tilemap.addChild(sprite));
+    this._notificationWindow.hide();
   }
 };

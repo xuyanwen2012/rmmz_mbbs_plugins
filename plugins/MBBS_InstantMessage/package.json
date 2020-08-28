@@ -4,7 +4,7 @@
   "author": "Ivan Xu",
   "license": "MIT",
   "description": "",
-  "main": "../../dist/InstantMessage.js",
+  "main": "../../dist/MBBS_InstantMessage.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"

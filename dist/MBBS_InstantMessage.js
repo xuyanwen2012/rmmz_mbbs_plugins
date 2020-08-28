@@ -20,7 +20,6 @@
         constructor(rect) {
             super();
             this.bitmap = new Bitmap(rect.width, rect.height);
-            this.bitmap.fillAll(ColorManager.normalColor());
             this.x = rect.x;
             this.y = rect.y;
             this.width = rect.width;
@@ -30,22 +29,26 @@
         // update() {
         //   super.update();
         // }
-        redraw() {
+        drawMsgs(msgs) {
             this.bitmap.clear();
-            // temp
-            const msgs = ['What a test message, good'];
-            let x = 0;
-            const y = 0;
-            msgs.slice(0, 12).forEach((str) => {
-                str.split('').forEach((char) => {
+            // .slice(0, 12)
+            const lineHeight = 22;
+            let x = this.x;
+            let y = this.y;
+            msgs.forEach(str => {
+                str.split('').forEach(char => {
                     const charWidth = this.bitmap.measureTextWidth(char);
-                    // if (charWidth > this.bitmap.width) {
-                    //   x = 0;
-                    //   y += h;
-                    // }
-                    this.bitmap.drawText(char, x, y, this.bitmap.width, 22, 'left');
-                    x += charWidth + 2;
+                    if (x + charWidth > this.bitmap.width) {
+                        // newline
+                        x = 0;
+                        y += lineHeight;
+                    }
+                    this.bitmap.drawText(char, x, y, this.bitmap.width, lineHeight, 'left');
+                    x += charWidth;
                 });
+                // newline
+                x = 0;
+                y += lineHeight;
             });
         }
         resetFontSettings() {
@@ -62,7 +65,7 @@
             this.visible = false;
         }
         refresh() {
-            this.redraw();
+            this.drawMsgs(['line 1: what a message', 'line 2: what a shit']);
         }
     }
 
@@ -74,7 +77,6 @@
             super.createWindowLayer();
             const displayRect = new Rectangle(0, 0, 256, Graphics.boxHeight);
             notificationWindow = new WindowNotification(displayRect);
-            // this.addWindow(notificationWindow);
             SceneManager._scene.addChild(notificationWindow);
         }
         start() {

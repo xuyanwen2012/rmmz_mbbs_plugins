@@ -6,18 +6,21 @@ let notificationWindow: WindowNotification;
 
 // @ts-ignore
 Scene_Map = class extends Scene_Map {
-  createWindowLayer() {
-    super.createWindowLayer();
-
-    const displayRect = new Rectangle(0, 0, 256, Graphics.boxHeight);
-
-    notificationWindow = new WindowNotification(displayRect);
-    SceneManager._scene.addChild(notificationWindow);
+  createAllWindows() {
+    const rect = new Rectangle(
+      0,
+      64,
+      Graphics.boxWidth / 3,
+      Graphics.boxHeight
+    );
+    notificationWindow = new WindowNotification(rect);
+    this.addWindow(notificationWindow);
+    super.createAllWindows();
   }
 
   start() {
     super.start();
-    notificationWindow.show();
+    notificationWindow.open();
   }
 
   update() {

@@ -1,65 +1,39 @@
-export default class WindowNotification extends Sprite {
+export default class WindowNotification extends Window_Base {
+  private opacity: number;
+  private contentsOpacity: number;
+  private _showCount: number;
+
   constructor(rect: Rectangle) {
-    super();
-    this.bitmap = new Bitmap(rect.width, rect.height);
-
-    this.x = rect.x;
-    this.y = rect.y;
-    this.width = rect.width;
-    this.height = rect.height;
-
-    $gameSystem.mainFontSize();
+    super(rect);
+    this.opacity = 0;
+    this.contentsOpacity = 0;
+    this._showCount = 0;
   }
 
-  // update() {
-  //   super.update();
-  // }
-
-  drawMsgs(msgs: string[]) {
-    this.bitmap.clear();
-
-    // .slice(0, 12)
-    const margin = 4; // Window_Message.newLineX
-    const lineHeight = 22;
-
-    let x = this.x + margin;
-    let y = this.y;
-    msgs.forEach(str => {
-      str.split('').forEach(char => {
-        const charWidth = this.bitmap.measureTextWidth(char);
-
-        if (x + charWidth > this.bitmap.width) {
-          // newline
-          x = 0;
-          y += lineHeight;
-        }
-
-        this.bitmap.drawText(char, x, y, this.bitmap.width, lineHeight, 'left');
-        x += charWidth;
-      });
-      // newline
-      x = 0;
-      y += lineHeight;
-    });
-  }
-
-  resetFontSettings() {
-    this.bitmap.fontFace = $gameSystem.mainFontFace();
-    this.bitmap.fontSize = $gameSystem.mainFontSize();
-    this.bitmap.textColor = ColorManager.normalColor();
-    this.bitmap.outlineColor = ColorManager.outlineColor();
-  }
-
-  show() {
-    this.visible = true;
+  initialize(rect: Rectangle) {
+    super.initialize(rect);
     this.refresh();
   }
 
-  hide() {
-    this.visible = false;
+  update() {
+    super.update();
+    if (this._showCount > 0) {
+      this.contentsOpacity = 255;
+      this._showCount--;
+    } else {
+      // fade out
+      this.contentsOpacity -= 16;
+    }
+  }
+
+  open() {
+    this.refresh();
+    this._showCount = 150;
   }
 
   private refresh() {
-    this.drawMsgs(['line 1: what a message', 'line 2: what a shit']);
+    this.contents.clear();
+    const width = Graphics.boxWidth;
+    this.drawText('test', 0, 0, width, 'left');
   }
 }

@@ -19314,12 +19314,16 @@ declare class Window_Base {
    */
   protected _closing: boolean;
 
+  contents: Bitmap;
+
   /**
    * Creates an instance of Window_Base.
    * @memberof Window_Base
    * @param rect
    */
   constructor(rect: Rectangle);
+
+  initialize(rect: Rectangle);
 
   /**
    * Returns the standard line height of the current window;

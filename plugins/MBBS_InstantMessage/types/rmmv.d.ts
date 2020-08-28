@@ -15929,6 +15929,8 @@ declare class Scene_Map extends Scene_Base {
 
   menuCalling: boolean;
 
+  initialize(): void;
+
   /**
    * Handler for when the map scene is loaded.
    *

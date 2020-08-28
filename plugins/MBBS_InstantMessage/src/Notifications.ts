@@ -1,32 +1,40 @@
-enum TextColor {
-  White = '',
-}
-
 interface Message {
   text: string;
-  color?: TextColor;
+  color?: string;
   font?: string;
   size?: number;
 }
 
 export default class Notifications {
-  private readonly _maxMsgs: number;
-  private _msg: Message[];
+  private readonly maxMsgs: number;
+  private messages: Message[];
+  private displayRect: Rectangle;
 
-  constructor() {
-    this._maxMsgs = 12;
-    this._msg = [];
+  constructor(rect: Rectangle) {
+    this.maxMsgs = 12;
+    this.messages = [];
+    this.displayRect = rect; // use default
+  }
+
+  getMessages() {
+    return this.messages;
+  }
+
+  getDisplayRect() {
+    return this.displayRect;
+  }
+
+  setDisplayRect(rect: Rectangle) {
+    this.displayRect = rect;
   }
 
   post(msg: Message): void {
-    if (this._msg.push(msg) > this._maxMsgs) {
-      this._msg.shift();
+    if (this.messages.push(msg) > this.maxMsgs) {
+      this.messages.shift();
     }
-
-    console.log(this._msg);
   }
 
   clear(): void {
-    this._msg = [];
+    this.messages = [];
   }
 }

@@ -22,15 +22,10 @@
  * @desc The text to print.
  *
  * @arg fontSize
- * @type string
+ * @type number
  * @default 26
  * @text Font size
  * @desc The size of the font.
- *
- * @arg fontFace
- * @type string
- * @text Font Face
- * @desc The face name of the font.
  *
  * @arg textColor
  * @type string
@@ -43,11 +38,14 @@
     'use strict';
 
     class WindowNotification extends Window_Base {
-        constructor(rect) {
-            super(rect);
+        constructor(notification) {
+            super(notification.getDisplayRect());
             this.opacity = 0;
             this.contentsOpacity = 0;
-            this._showCount = 0;
+            this.showCount = 0;
+            this.notification = notification;
+            console.log(this.notification);
+            console.log(this);
         }
         initialize(rect) {
             super.initialize(rect);
@@ -55,9 +53,9 @@
         }
         update() {
             super.update();
-            if (this._showCount > 0) {
+            if (this.showCount > 0) {
                 this.contentsOpacity = 255;
-                this._showCount--;
+                this.showCount--;
             }
             else {
                 // fade out
@@ -66,52 +64,99 @@
         }
         open() {
             this.refresh();
-            this._showCount = 150;
+            this.showCount = 150;
         }
+        /**
+         * Should simply redraw the contents based on the state of notification.
+         * @private
+         */
         refresh() {
             this.contents.clear();
             const maxWidth = this.contentsWidth();
-            const test = 'a very long and very long and very long test message';
-            this.drawTextWrap(test, 0, 0, maxWidth);
+            if (!this.notification)
+                return;
+            let y = 0;
+            this.notification.getMessages().forEach(msg => {
+                y = this.drawTextWrap(msg.text, 0, y, maxWidth);
+            });
         }
         drawTextWrap(text, x, y, maxWidth) {
             text.split(' ').forEach((word) => {
                 word = this.convertEscapeCharacters(word);
                 const width = this.textWidth(word + ' ');
-                if (x + width >= this.contents.width) {
+                // trigger new-line break
+                if (x + width >= this.contentsWidth()) {
                     y += this.lineHeight();
                     x = 0;
                 }
                 this.drawText(word + ' ', x, y, maxWidth, 'left');
                 x += width;
             });
+            // Return the y coordinate of the new line.
+            return y + this.lineHeight();
+        }
+    }
+
+    class Notifications {
+        constructor(rect) {
+            this.maxMsgs = 12;
+            this.messages = [];
+            this.displayRect = rect; // use default
+        }
+        getMessages() {
+            return this.messages;
+        }
+        getDisplayRect() {
+            return this.displayRect;
+        }
+        setDisplayRect(rect) {
+            this.displayRect = rect;
+        }
+        post(msg) {
+            if (this.messages.push(msg) > this.maxMsgs) {
+                this.messages.shift();
+            }
+        }
+        clear() {
+            this.messages = [];
         }
     }
 
     const pluginName = 'MBBS_InstantMessage';
-    let notificationWindow;
+    // const notifications = new Notifications();
     PluginManager.registerCommand(pluginName, 'post', (args) => {
-        notificationWindow.open();
+        const color = ColorManager.normalColor();
+        const size = $gameSystem.mainFontSize();
+        const font = $gameSystem.mainFontFace();
+        const text = args.text;
+        // @ts-ignore
+        SceneManager._scene.notifications.post({ color, size, font, text });
+        // @ts-ignore
+        SceneManager._scene.notificationWindow.open();
     });
     // @ts-ignore
     Scene_Map = class extends Scene_Map {
         createAllWindows() {
-            const rect = new Rectangle(0, 64, Graphics.boxWidth / 2, Graphics.boxHeight);
-            notificationWindow = new WindowNotification(rect);
-            this.addWindow(notificationWindow);
+            const displayRect = new Rectangle(0, 64, Graphics.boxWidth / 2, Graphics.boxHeight);
+            this.notifications = new Notifications(displayRect);
+            this.notificationWindow = new WindowNotification(this.notifications);
+            this.addWindow(this.notificationWindow);
             super.createAllWindows();
         }
         start() {
+            var _a;
             super.start();
-            notificationWindow.show();
+            (_a = this.notificationWindow) === null || _a === void 0 ? void 0 : _a.show();
         }
         update() {
+            var _a;
             super.update();
-            notificationWindow.update();
+            (_a = this.notificationWindow) === null || _a === void 0 ? void 0 : _a.update();
         }
         stop() {
+            var _a;
             super.stop();
-            notificationWindow.hide();
+            (_a = this.notificationWindow) === null || _a === void 0 ? void 0 : _a.hide();
         }
     };
 

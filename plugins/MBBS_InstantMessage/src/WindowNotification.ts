@@ -1,13 +1,19 @@
-export default class WindowNotification extends Window_Base {
-  private opacity: number;
-  private contentsOpacity: number;
-  private _showCount: number;
+import Notifications from './Notifications';
 
-  constructor(rect: Rectangle) {
-    super(rect);
+export default class WindowNotification extends Window_Base {
+  protected opacity: number;
+  protected contentsOpacity: number;
+  private showCount: number;
+  private readonly notification: Notifications;
+
+  constructor(notification: Notifications) {
+    super(notification.getDisplayRect());
     this.opacity = 0;
     this.contentsOpacity = 0;
-    this._showCount = 0;
+    this.showCount = 0;
+    this.notification = notification;
+    console.log(this.notification);
+    console.log(this);
   }
 
   initialize(rect: Rectangle) {
@@ -17,9 +23,9 @@ export default class WindowNotification extends Window_Base {
 
   update() {
     super.update();
-    if (this._showCount > 0) {
+    if (this.showCount > 0) {
       this.contentsOpacity = 255;
-      this._showCount--;
+      this.showCount--;
     } else {
       // fade out
       this.contentsOpacity -= 16;
@@ -28,24 +34,37 @@ export default class WindowNotification extends Window_Base {
 
   open() {
     this.refresh();
-    this._showCount = 150;
+    this.showCount = 150;
   }
 
+  /**
+   * Should simply redraw the contents based on the state of notification.
+   * @private
+   */
   private refresh() {
     this.contents.clear();
     const maxWidth = this.contentsWidth();
 
-    const test = 'a very long and very long and very long test message';
+    if (!this.notification) return;
 
-    this.drawTextWrap(test, 0, 0, maxWidth);
+    let y = 0;
+    this.notification.getMessages().forEach(msg => {
+      y = this.drawTextWrap(msg.text, 0, y, maxWidth);
+    });
   }
 
-  private drawTextWrap(text: string, x: number, y: number, maxWidth: number) {
+  private drawTextWrap(
+    text: string,
+    x: number,
+    y: number,
+    maxWidth: number
+  ): number {
     text.split(' ').forEach((word: string) => {
       word = this.convertEscapeCharacters(word);
       const width = this.textWidth(word + ' ');
 
-      if (x + width >= this.contents.width) {
+      // trigger new-line break
+      if (x + width >= this.contentsWidth()) {
         y += this.lineHeight();
         x = 0;
       }
@@ -53,5 +72,8 @@ export default class WindowNotification extends Window_Base {
       this.drawText(word + ' ', x, y, maxWidth, 'left');
       x += width;
     });
+
+    // Return the y coordinate of the new line.
+    return y + this.lineHeight();
   }
 }

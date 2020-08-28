@@ -31,6 +31,8 @@
 * --Kino
 */
 
+import TextState = MV.TextState;
+
 declare class Bitmap {
   /**
    * Loads a image file and returns a new bitmap object.
@@ -7698,10 +7700,19 @@ declare namespace MV {
   }
 
   export interface TextState {
+    text: string;
     index: number;
     x: number;
     y: number;
-    left: number;
+    width: number;
+    height: number;
+    startX: number;
+    startY: number;
+    rtl: boolean;
+    buffer: string;
+    drawing: boolean;
+    outputWidth: number;
+    outputHeight: number;
   }
 
   export interface BattleLogMethod {
@@ -19756,6 +19767,12 @@ declare class Window_Base {
    * @memberof Window_Base
    */
   partyMemberName(partyMemberIndex: number): string;
+
+  createTextState(text: string, x: number, y: number, width: number): MV.TextState;
+
+  processAllText(textState: MV.TextState): void;
+
+  flushTextState(textState: MV.TextState): void;
 
   /**
    * Process each character in the text when drawTextEx

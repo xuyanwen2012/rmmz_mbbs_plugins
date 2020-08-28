@@ -44,8 +44,21 @@
         }
         refresh() {
             this.contents.clear();
-            const width = Graphics.boxWidth;
-            this.drawText('test', 0, 0, width, 'left');
+            const maxWidth = this.contentsWidth();
+            const test = 'a very long and very long and very long test message';
+            this.drawTextWrap(test, 0, 0, maxWidth);
+        }
+        drawTextWrap(text, x, y, maxWidth) {
+            text.split(' ').forEach((word) => {
+                word = this.convertEscapeCharacters(word);
+                const width = this.textWidth(word + ' ');
+                if (x + width >= this.contents.width) {
+                    y += this.lineHeight();
+                    x = 0;
+                }
+                this.drawText(word + ' ', x, y, maxWidth, 'left');
+                x += width;
+            });
         }
     }
 

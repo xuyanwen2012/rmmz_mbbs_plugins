@@ -3,7 +3,7 @@ import Notifications from './Notifications';
 
 const pluginName = 'MBBS_InstantMessage';
 
-// const pluginParam = {numTick: 1};
+let pluginParam = {maxLineLimit: 12, displayDuration: 4};
 
 interface CommandPostParams {
   text: string;
@@ -13,6 +13,18 @@ interface CommandPostParams {
 
 const displayRect = new Rectangle(0, 64, 808 / 2, 616 - 64);
 const $gameNotifications = new Notifications(displayRect);
+
+const parameters = PluginManager.parameters('MBBS_InstantMessage');
+
+// @ts-ignore
+// eslint-disable-next-line node/no-unsupported-features/es-builtins
+pluginParam = Object.fromEntries(
+  Object.keys(pluginParam).map(key => {
+    return [key, parameters[key]];
+  })
+);
+
+console.log(pluginParam);
 
 PluginManager.registerCommand(pluginName, 'post', (args: CommandPostParams) => {
   const color = ColorManager.normalColor();

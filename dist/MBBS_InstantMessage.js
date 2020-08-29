@@ -12,6 +12,20 @@
  * This plugin can be used for 'Mount & Blade' style battle log or simply for
  * quick debugging display.
  *
+ * @param maxLineLimit
+ * @type number
+ * @min 1
+ * @default 12
+ * @text Max Line Limit
+ * @desc How many lines can be displayed on the screen.
+ *
+ * @param displayDuration
+ * @type number
+ * @min 1
+ * @default 4
+ * @text Display Duration in Sec
+ * @desc How long (in seconds) will the messages be shown on the screen.
+ *
  * @command post
  * @text Post
  * @desc Post a message to the screen.
@@ -44,8 +58,6 @@
             this.contentsOpacity = 0;
             this.showCount = 0;
             this.notification = notification;
-            console.log(this.notification);
-            console.log(this);
         }
         initialize(rect) {
             super.initialize(rect);
@@ -80,9 +92,7 @@
             this.notification.getMessages().forEach(msg => {
                 const lines = this.calcMsgNumLines(msg.text, maxWidth);
                 y -= lines;
-                y = this.drawTextWrap(msg.text, 0, y, maxWidth);
-                // console.log(`# lines:${lines}`);
-                // y = ;
+                this.drawTextWrap(msg.text, 0, y, maxWidth);
             });
         }
         calcMsgNumLines(text, maxWidth) {
@@ -133,8 +143,16 @@
     }
 
     const pluginName = 'MBBS_InstantMessage';
+    let pluginParam = { maxLineLimit: 12, displayDuration: 4 };
     const displayRect = new Rectangle(0, 64, 808 / 2, 616 - 64);
     const $gameNotifications = new Notifications(displayRect);
+    const parameters = PluginManager.parameters('MBBS_InstantMessage');
+    // @ts-ignore
+    // eslint-disable-next-line node/no-unsupported-features/es-builtins
+    pluginParam = Object.fromEntries(Object.keys(pluginParam).map(key => {
+        return [key, parameters[key]];
+    }));
+    console.log(pluginParam);
     PluginManager.registerCommand(pluginName, 'post', (args) => {
         const color = ColorManager.normalColor();
         const size = $gameSystem.mainFontSize();

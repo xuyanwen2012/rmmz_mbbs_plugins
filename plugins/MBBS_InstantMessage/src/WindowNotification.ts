@@ -12,8 +12,6 @@ export default class WindowNotification extends Window_Base {
     this.contentsOpacity = 0;
     this.showCount = 0;
     this.notification = notification;
-    console.log(this.notification);
-    console.log(this);
   }
 
   initialize(rect: Rectangle) {
@@ -54,9 +52,6 @@ export default class WindowNotification extends Window_Base {
 
       y -= lines;
       this.drawTextWrap(msg.text, 0, y, maxWidth);
-
-      // console.log(`# lines:${lines}`);
-      // y = ;
     });
   }
 

@@ -8,6 +8,20 @@
  * This plugin can be used for 'Mount & Blade' style battle log or simply for
  * quick debugging display.
  *
+ * @param maxLineLimit
+ * @type number
+ * @min 1
+ * @default 12
+ * @text Max Line Limit
+ * @desc How many lines can be displayed on the screen.
+ *
+ * @param displayDuration
+ * @type number
+ * @min 1
+ * @default 4
+ * @text Display Duration in Sec
+ * @desc How long (in seconds) will the messages be shown on the screen.
+ *
  * @command post
  * @text Post
  * @desc Post a message to the screen.

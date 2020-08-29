@@ -73,27 +73,37 @@
         refresh() {
             this.contents.clear();
             const maxWidth = this.contentsWidth();
+            const maxHeight = this.contentsHeight();
             if (!this.notification)
                 return;
-            let y = 0;
+            let y = maxHeight;
             this.notification.getMessages().forEach(msg => {
+                const lines = this.calcMsgNumLines(msg.text, maxWidth);
+                y -= lines;
                 y = this.drawTextWrap(msg.text, 0, y, maxWidth);
+                // console.log(`# lines:${lines}`);
+                // y = ;
             });
         }
-        drawTextWrap(text, x, y, maxWidth) {
+        calcMsgNumLines(text, maxWidth) {
+            return this.drawTextWrap(text, 0, 0, maxWidth, true);
+        }
+        drawTextWrap(text, x, y, maxWidth, noEmit = false) {
             text.split(' ').forEach((word) => {
                 word = this.convertEscapeCharacters(word);
                 const width = this.textWidth(word + ' ');
                 // trigger new-line break
                 if (x + width >= this.contentsWidth()) {
-                    y += this.lineHeight();
+                    y -= this.lineHeight();
                     x = 0;
                 }
-                this.drawText(word + ' ', x, y, maxWidth, 'left');
+                if (!noEmit) {
+                    this.drawText(word + ' ', x, y, maxWidth, 'left');
+                }
                 x += width;
             });
-            // Return the y coordinate of the new line.
-            return y + this.lineHeight();
+            // Return the new y coordinate of the next line.
+            return y - this.lineHeight();
         }
     }
 
@@ -113,8 +123,8 @@
             this.displayRect = rect;
         }
         post(msg) {
-            if (this.messages.push(msg) > this.maxMsgs) {
-                this.messages.shift();
+            if (this.messages.unshift(msg) > this.maxMsgs) {
+                this.messages.pop();
             }
         }
         clear() {

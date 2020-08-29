@@ -44,20 +44,32 @@ export default class WindowNotification extends Window_Base {
   private refresh() {
     this.contents.clear();
     const maxWidth = this.contentsWidth();
+    const maxHeight = this.contentsHeight();
 
     if (!this.notification) return;
 
-    let y = 0;
+    let y = maxHeight;
     this.notification.getMessages().forEach(msg => {
-      y = this.drawTextWrap(msg.text, 0, y, maxWidth);
+      const lines = this.calcMsgNumLines(msg.text, maxWidth);
+
+      y -= lines;
+      this.drawTextWrap(msg.text, 0, y, maxWidth);
+
+      // console.log(`# lines:${lines}`);
+      // y = ;
     });
+  }
+
+  private calcMsgNumLines(text: string, maxWidth: number): number {
+    return this.drawTextWrap(text, 0, 0, maxWidth, true);
   }
 
   private drawTextWrap(
     text: string,
     x: number,
     y: number,
-    maxWidth: number
+    maxWidth: number,
+    noEmit = false
   ): number {
     text.split(' ').forEach((word: string) => {
       word = this.convertEscapeCharacters(word);
@@ -65,15 +77,18 @@ export default class WindowNotification extends Window_Base {
 
       // trigger new-line break
       if (x + width >= this.contentsWidth()) {
-        y += this.lineHeight();
+        y -= this.lineHeight();
         x = 0;
       }
 
-      this.drawText(word + ' ', x, y, maxWidth, 'left');
+      if (!noEmit) {
+        this.drawText(word + ' ', x, y, maxWidth, 'left');
+      }
+
       x += width;
     });
 
-    // Return the y coordinate of the new line.
-    return y + this.lineHeight();
+    // Return the new y coordinate of the next line.
+    return y - this.lineHeight();
   }
 }

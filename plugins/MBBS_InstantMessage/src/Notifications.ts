@@ -29,8 +29,8 @@ export default class Notifications {
   }
 
   post(msg: Message): void {
-    if (this.messages.push(msg) > this.maxMsgs) {
-      this.messages.shift();
+    if (this.messages.unshift(msg) > this.maxMsgs) {
+      this.messages.pop();
     }
   }
 
